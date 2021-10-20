@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #regions_city {
+          font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        #regions_city td, #regions_city th {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+        
+        #regions_city tr:nth-child(even){background-color: #f2f2f2;}
+        
+        #regions_city tr:hover {background-color: #ddd;}
+        
+        #regions_city th {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          text-align: left;
+          background-color: #4CAF50;
+          color: white;
+        }
+        </style>
+</head>
+
+<script>
+        var ws=new WebSocket('ws://127.0.0.1:8000/ws/regionsCity/');
+
+        ws.onopen=()=>{
+            console.log('connected')
+        };
+
+        ws.onmessage=(message)=>{
+            var city_array=JSON.parse(message.data)
+            regs_city_data=city_array['regions_city_data']
+            BodyData=[]
+            for (val in regs_city_data){
+                BodyData.push(regs_city_data[val][0])
+            }
+
+            tableContent=document.getElementById('regions_city');
+            tableContent.innerHTML=null;
+            createHeader(tableContent,tableHeader);
+            createTableBody(tableContent,BodyData);
+        };
+
+        ws.onclose=()=>{
+
+        };
+
+
+</script>
+
+
+<body>
+    <h1>Липецкая область</h1>
+    <table id="regions_city">
+
+    </table>
+</body>
+    <script>
+        
+        
+        
+        var tableHeader=['Наименование города','температура ','влажность %','ветер (м/с)','атмосферное давление ']
+        var BodyData=[]
+
+        function createHeader(table,headerValues){
+            let tHead=table.createTHead();
+            let trow = tHead.insertRow();
+            for (val in headerValues){
+                let th=document.createElement('th');
+                let text=document.createTextNode(headerValues[val]);
+                th.appendChild(text);
+                trow.appendChild(th)
+            }
+        }
+
+        function createTableBody(table,data){
+            for (el in data){
+                console.log(el)
+                var row=table.insertRow()
+                tmpCityData=data[el]['city_data']
+                console.log(tmpCityData)
+                console.log(typeof(tmpCityData))
+                for (key in tmpCityData){
+                    var cell=row.insertCell();
+                    var text=document.createTextNode(tmpCityData[key]);
+                    cell.appendChild(text);
+                }
+                
+          }
+        }
+        var tableContent=document.getElementById('regions_city');
+        
+    </script>
+</html>

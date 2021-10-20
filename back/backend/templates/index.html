@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="reg_list">
+        
+    </ul>
+</body>
+    <script>
+        var ws=new WebSocket('ws://127.0.0.1:8000/ws/home/')
+        var regions_list=[]
+
+        ws.onopen=()=>{
+            console.log('connected')
+            ws.send()
+        }
+        ws.onmessage=(message)=>{
+            var regs_array=JSON.parse(message.data)
+            var tmp=regs_array["regions"]
+            regions_list=tmp
+            regions_list.forEach(element => {
+                var node = document.createElement("LI");
+                var textnode = document.createTextNode(element);
+                node.appendChild(textnode);
+                document.getElementById("reg_list").appendChild(node);
+            });
+            console.log(regions_list)
+        }
+        
+
+        var regs=document.getElementById('regions_list');
+
+
+    </script>
+</html>
