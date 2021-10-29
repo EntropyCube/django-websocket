@@ -3,33 +3,31 @@ import { DataGrid } from '@mui/x-data-grid';
 
 
 function CitysTable(props){
-    const columns = [{field:'city_name',headerName:'название города',width: 200},
-        {field:'temperature',headerName:'температура',width: 200},
-        {field:'humidity',headerName:'влажность',width: 200},
-        {field:'wind',headerName:'ветер',width: 200},
-        {field:'atmospheric_pressure',headerName:'атмосферное давление',width: 300},
+    const columns = [{field:'city_name',headerName:'название города',width: 200, alignContent: "center"},
+        {field:'temperature',headerName:'температура',width: 200, alignContent: "center"},
+        {field:'humidity',headerName:'влажность',width: 200, alignContent: "center"},
+        {field:'wind',headerName:'ветер',width: 200, alignContent: "center"},
+        {field:'atmospheric_pressure',headerName:'атмосферное давление',width: 300, alignContent: "center"},
         
     ]
-    // const headers=['название города',"температура","влажность","ветер","атмосферное давление"]
-    const listdata=props.data.map((row, index) =>
-        <li key={index}>
-            {row.temperature}
-        </li>
-    );
+    const handleCellClick=(param,event)=>{
+        props.cellClick(param)
+    }
+
     return(
-        <ul>
-            <div style={{height:400,width:'100',alignContent:'center'}}>
+        <div style={{ height: 400, width: '80vw' }}>
                 <DataGrid
+                    
                     rows={props.data}
                     columns={columns}
-                    pageSize={5}
+                    pageSize={4}
                     rowsPerPageOptions={[1]}
                     autoPageSize={true}
                     disableColumnMenu={true}
                     hideFooterSelectedRowCount={true}
+                    onCellClick={handleCellClick}
                 />
             </div>
-        </ul>
     )
 
 }

@@ -3,7 +3,7 @@ import React from "react";
 function ListItems(props){
     return(
         <li>
-        <a onClick={()=>props.clicked(props.reg)}>{props.reg}</a>
+        <a onClick={()=>props.clicked(props.value)}>{props.value}</a>
         </li>
     )
 }
